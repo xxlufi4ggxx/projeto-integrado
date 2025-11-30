@@ -24,7 +24,7 @@ function calculateCompatibility(candidateSkills, jobKeywords) {
 // Listar todos os candidatos com contagem de aplicações e compatibilidade média
 router.get('/candidates', (req, res) => {
   try {
-    console.log('[v0] Buscando candidatos com compatibilidade...')
+    console.log(' Buscando candidatos com compatibilidade...')
     
     const candidates = db.prepare(`
       SELECT 
@@ -66,10 +66,10 @@ router.get('/candidates', (req, res) => {
       }
     })
     
-    console.log('[v0] Candidatos encontrados:', candidatesWithCompatibility.length)
+    console.log(' Candidatos encontrados:', candidatesWithCompatibility.length)
     res.json(candidatesWithCompatibility)
   } catch (error) {
-    console.error('[v0] Erro ao buscar candidatos:', error)
+    console.error(' Erro ao buscar candidatos:', error)
     res.status(500).json({ message: 'Erro ao buscar candidatos' })
   }
 })
@@ -84,7 +84,7 @@ router.post('/candidates', (req, res) => {
       return res.status(400).json({ message: 'Nome e email são obrigatórios' })
     }
 
-    console.log('[v0] Adicionando candidato:', name)
+    console.log(' Adicionando candidato:', name)
 
     // Insere candidato no banco
     const stmt = db.prepare(`
@@ -99,7 +99,7 @@ router.post('/candidates', (req, res) => {
       id: result.lastInsertRowid 
     })
   } catch (error) {
-    console.error('[v0] Erro ao adicionar candidato:', error)
+    console.error(' Erro ao adicionar candidato:', error)
     
     // Verifica se é erro de email duplicado
     if (error.message.includes('UNIQUE')) {
@@ -121,7 +121,7 @@ router.put('/candidates/:id', (req, res) => {
       return res.status(400).json({ message: 'Nome e email são obrigatórios' })
     }
 
-    console.log('[v0] Atualizando candidato:', id)
+    console.log(' Atualizando candidato:', id)
 
     // Atualiza candidato no banco
     const stmt = db.prepare(`
@@ -138,7 +138,7 @@ router.put('/candidates/:id', (req, res) => {
     
     res.json({ message: 'Candidato atualizado com sucesso' })
   } catch (error) {
-    console.error('[v0] Erro ao atualizar candidato:', error)
+    console.error(' Erro ao atualizar candidato:', error)
     
     if (error.message.includes('UNIQUE')) {
       return res.status(400).json({ message: 'Email já cadastrado' })
@@ -185,7 +185,7 @@ router.put('/candidates/:id/status', (req, res) => {
       }
     }
 
-    console.log('[v0] Atualizando status do candidato:', id, 'para', status)
+    console.log(' Atualizando status do candidato:', id, 'para', status)
 
     const stmt = db.prepare(`
       UPDATE candidates 
@@ -197,7 +197,7 @@ router.put('/candidates/:id/status', (req, res) => {
     
     res.json({ message: 'Status atualizado com sucesso' })
   } catch (error) {
-    console.error('[v0] Erro ao atualizar status:', error)
+    console.error(' Erro ao atualizar status:', error)
     res.status(500).json({ message: 'Erro ao atualizar status' })
   }
 })
@@ -206,7 +206,7 @@ router.put('/candidates/:id/status', (req, res) => {
 router.delete('/candidates/:id', (req, res) => {
   try {
     const { id } = req.params
-    console.log('[v0] Deletando candidato:', id)
+    console.log(' Deletando candidato:', id)
 
     // Remove aplicações do candidato primeiro
     db.prepare('DELETE FROM applications WHERE candidate_id = ?').run(id)
@@ -221,7 +221,7 @@ router.delete('/candidates/:id', (req, res) => {
     
     res.json({ message: 'Candidato removido com sucesso' })
   } catch (error) {
-    console.error('[v0] Erro ao deletar candidato:', error)
+    console.error(' Erro ao deletar candidato:', error)
     res.status(500).json({ message: 'Erro ao deletar candidato' })
   }
 })
@@ -230,7 +230,7 @@ router.delete('/candidates/:id', (req, res) => {
 router.get('/candidates/:id', (req, res) => {
   try {
     const { id } = req.params
-    console.log('[v0] Buscando candidato:', id)
+    console.log(' Buscando candidato:', id)
     
     const candidate = db.prepare('SELECT * FROM candidates WHERE id = ?').get(id)
     
@@ -258,7 +258,7 @@ router.get('/candidates/:id', (req, res) => {
     
     res.json({ ...candidate, applications: applicationsWithCompatibility })
   } catch (error) {
-    console.error('[v0] Erro ao buscar candidato:', error)
+    console.error(' Erro ao buscar candidato:', error)
     res.status(500).json({ message: 'Erro ao buscar candidato' })
   }
 })
@@ -267,7 +267,7 @@ router.get('/candidates/:id', (req, res) => {
 router.post('/candidates/:candidateId/apply/:jobId', (req, res) => {
   try {
     const { candidateId, jobId } = req.params
-    console.log('[v0] Candidatando candidato', candidateId, 'para vaga', jobId)
+    console.log(' Candidatando candidato', candidateId, 'para vaga', jobId)
     
     const stmt = db.prepare(`
       INSERT INTO applications (candidate_id, job_id)
@@ -281,7 +281,7 @@ router.post('/candidates/:candidateId/apply/:jobId', (req, res) => {
       id: result.lastInsertRowid 
     })
   } catch (error) {
-    console.error('[v0] Erro ao candidatar:', error)
+    console.error(' Erro ao candidatar:', error)
     
     if (error.message.includes('UNIQUE')) {
       return res.status(400).json({ message: 'Candidato já está nesta vaga' })
@@ -295,7 +295,7 @@ router.post('/candidates/:candidateId/apply/:jobId', (req, res) => {
 router.get('/applications/job/:jobId', (req, res) => {
   try {
     const { jobId } = req.params
-    console.log('[v0] Buscando candidatos da vaga:', jobId)
+    console.log(' Buscando candidatos da vaga:', jobId)
     
     const applications = db.prepare(`
       SELECT 
@@ -317,7 +317,7 @@ router.get('/applications/job/:jobId', (req, res) => {
       ORDER BY a.compatibility DESC, a.applied_at DESC
     `).all(jobId)
     
-    console.log('[v0] Candidatos encontrados para vaga:', applications.length)
+    console.log(' Candidatos encontrados para vaga:', applications.length)
     res.json(applications)
   } catch (error) {
     console.error('[v0] Erro ao buscar candidatos da vaga:', error)

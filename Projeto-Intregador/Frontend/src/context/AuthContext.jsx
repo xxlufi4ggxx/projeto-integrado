@@ -33,8 +33,8 @@ export function AuthProvider({ children }) {
         if (token) {
           config.headers.Authorization = `Bearer ${token}`
         }
-        console.log("[v0] Requisição:", config.method?.toUpperCase(), config.url)
-        console.log("[v0] Token presente:", !!token)
+        console.log("Requisição:", config.method?.toUpperCase(), config.url)
+        console.log("Token presente:", !!token)
         return config
       },
       (error) => {
@@ -44,11 +44,11 @@ export function AuthProvider({ children }) {
 
     const responseInterceptor = axios.interceptors.response.use(
       (response) => {
-        console.log("[v0] Resposta:", response.status, response.config.url)
+        console.log("Resposta:", response.status, response.config.url)
         return response
       },
       (error) => {
-        console.log("[v0] Erro na resposta:", error.response?.status, error.response?.data)
+        console.log("Erro na resposta:", error.response?.status, error.response?.data)
         return Promise.reject(error)
       },
     )
@@ -92,11 +92,11 @@ export function AuthProvider({ children }) {
   }
 
   const updateUser = (userData) => {
-    console.log("[v0] Atualizando usuário no contexto:", userData)
+    console.log("Atualizando usuário no contexto:", userData)
     const updatedUser = { ...user, ...userData }
     setUser(updatedUser)
     localStorage.setItem("user", JSON.stringify(updatedUser))
-    console.log("[v0] Usuário atualizado no localStorage")
+    console.log("Usuário atualizado no localStorage")
   }
 
   const logout = () => {

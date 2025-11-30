@@ -51,7 +51,7 @@ export default function Candidates() {
   const fetchCandidates = async () => {
     try {
       const response = await axios.get("http://localhost:3333/api/candidates")
-      console.log("[v0] Candidatos carregados:", response.data)
+      console.log(" Candidatos carregados:", response.data)
       setCandidates(response.data)
       setFilteredCandidates(response.data)
     } catch (error) {
@@ -63,7 +63,7 @@ export default function Candidates() {
   const fetchJobs = async () => {
     try {
       const response = await axios.get("http://localhost:3333/api/jobs")
-      console.log("[v0] Vagas carregadas:", response.data)
+      console.log(" Vagas carregadas:", response.data)
       setJobs(response.data)
     } catch (error) {
       console.error("Erro ao buscar vagas:", error)

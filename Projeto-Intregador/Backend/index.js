@@ -22,6 +22,6 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`)
-  console.log(`📡 API disponível em http://localhost:${PORT}/api`)
+  console.log(` Servidor rodando na porta ${PORT}`)
+  console.log(` API disponível em http://localhost:${PORT}/api`)
 })

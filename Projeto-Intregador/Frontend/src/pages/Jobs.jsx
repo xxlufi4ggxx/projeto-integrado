@@ -35,11 +35,11 @@ export default function Jobs() {
   const fetchJobs = async () => {
     try {
       const response = await axios.get("http://localhost:3333/api/jobs")
-      console.log("[v0] Vagas carregadas:", response.data)
+      console.log(" Vagas carregadas:", response.data)
       setJobs(response.data)
       setFilteredJobs(response.data)
     } catch (error) {
-      console.error("[v0] Erro ao buscar vagas:", error)
+      console.error(" Erro ao buscar vagas:", error)
       alert("Erro ao buscar vagas. Verifique se o servidor está rodando.")
     }
   }
@@ -54,7 +54,7 @@ export default function Jobs() {
       setSelectedJob(response.data)
       setShowDetailsModal(true)
     } catch (error) {
-      console.error("[v0] Erro ao buscar detalhes:", error)
+      console.error(" Erro ao buscar detalhes:", error)
       alert("Erro ao buscar detalhes da vaga")
     }
   }
@@ -62,12 +62,12 @@ export default function Jobs() {
   const handleViewCandidates = async (job) => {
     try {
       const response = await axios.get(`http://localhost:3333/api/applications/job/${job.id}`)
-      console.log("[v0] Candidatos da vaga:", response.data)
+      console.log(" Candidatos da vaga:", response.data)
       setJobCandidates(response.data)
       setSelectedJob(job)
       setShowCandidatesModal(true)
     } catch (error) {
-      console.error("[v0] Erro ao buscar candidatos:", error)
+      console.error(" Erro ao buscar candidatos:", error)
       alert("Erro ao buscar candidatos da vaga")
     }
   }

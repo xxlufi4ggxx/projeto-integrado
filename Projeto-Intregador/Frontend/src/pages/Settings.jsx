@@ -34,18 +34,18 @@ export default function Settings() {
     setLoading(true)
     setMessage({ type: "", text: "" })
 
-    console.log("[v0] Iniciando atualização de perfil:", profileData)
+    console.log(" Iniciando atualização de perfil:", profileData)
 
     try {
       const response = await axios.put("/api/auth/profile", profileData)
 
-      console.log("[v0] Resposta do servidor:", response.data)
+      console.log(" Resposta do servidor:", response.data)
 
       updateUser(response.data.user)
 
       setMessage({ type: "success", text: "Perfil atualizado com sucesso!" })
     } catch (error) {
-      console.log("[v0] Erro ao atualizar perfil:", error.response?.data)
+      console.log(" Erro ao atualizar perfil:", error.response?.data)
       setMessage({
         type: "error",
         text: error.response?.data?.message || "Erro ao atualizar perfil",
@@ -72,7 +72,7 @@ export default function Settings() {
       return
     }
 
-    console.log("[v0] Iniciando alteração de senha")
+    console.log(" Iniciando alteração de senha")
 
     try {
       const response = await axios.put("/api/auth/password", {
@@ -80,12 +80,12 @@ export default function Settings() {
         newPassword: passwordData.newPassword,
       })
 
-      console.log("[v0] Resposta do servidor:", response.data)
+      console.log(" Resposta do servidor:", response.data)
 
       setMessage({ type: "success", text: "Senha alterada com sucesso!" })
       setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" })
     } catch (error) {
-      console.log("[v0] Erro ao alterar senha:", error.response?.data)
+      console.log(" Erro ao alterar senha:", error.response?.data)
       setMessage({
         type: "error",
         text: error.response?.data?.message || "Erro ao alterar senha",

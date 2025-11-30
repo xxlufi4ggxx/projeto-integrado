@@ -9,7 +9,7 @@ const __dirname = dirname(__filename)
 const dataDir = join(__dirname, "../data")
 if (!existsSync(dataDir)) {
   mkdirSync(dataDir, { recursive: true })
-  console.log("[v0] Diretório data criado")
+  console.log(" Diretório data criado")
 }
 
 const dbPath = join(__dirname, "../data/users.db")
@@ -17,10 +17,10 @@ const dbPath = join(__dirname, "../data/users.db")
 let db
 try {
   db = new Database(dbPath)
-  console.log("[v0] Banco de dados conectado com sucesso")
+  console.log(" Banco de dados conectado com sucesso")
 } catch (error) {
-  console.error("[v0] Erro ao conectar ao banco de dados:", error.message)
-  console.error('[v0] Execute "npm run reset-db" para recriar o banco de dados')
+  console.error(" Erro ao conectar ao banco de dados:", error.message)
+  console.error('Execute "npm run reset-db" para recriar o banco de dados')
   process.exit(1)
 }
 
@@ -85,6 +85,6 @@ db.exec(`
   )
 `)
 
-console.log("[v0] Tabelas do banco de dados criadas/verificadas com sucesso")
+console.log(" Tabelas do banco de dados criadas/verificadas com sucesso")
 
 export default db

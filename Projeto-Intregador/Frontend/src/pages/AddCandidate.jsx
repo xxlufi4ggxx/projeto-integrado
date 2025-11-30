@@ -52,8 +52,8 @@ export default function AddCandidate() {
     const job = jobs.find((j) => j.id === jobId)
     setSelectedJob(job)
 
-    console.log("[v0] Vaga selecionada:", job)
-    console.log("[v0] Keywords string:", job.keywords)
+    console.log(" Vaga selecionada:", job)
+    console.log(" Keywords string:", job.keywords)
 
     // Extrair as keywords da vaga
     const keywords = job.keywords
@@ -62,7 +62,7 @@ export default function AddCandidate() {
           .map((k) => k.trim())
           .filter((k) => k)
       : []
-    console.log("[v0] Keywords processadas:", keywords)
+    console.log(" Keywords processadas:", keywords)
 
     setJobKeywords(keywords)
     setSelectedSkills([])

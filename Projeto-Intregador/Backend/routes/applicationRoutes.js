@@ -6,7 +6,7 @@ const router = express.Router()
 // Listar todas as aplicações
 router.get('/applications', (req, res) => {
   try {
-    console.log('[v0] Buscando aplicações...')
+    console.log(' Buscando aplicações...')
     const applications = db.prepare(`
       SELECT 
         a.*,
@@ -31,7 +31,7 @@ router.get('/applications', (req, res) => {
 router.get('/applications/job/:jobId', (req, res) => {
   try {
     const { jobId } = req.params
-    console.log('[v0] Buscando aplicações da vaga:', jobId)
+    console.log(' Buscando aplicações da vaga:', jobId)
     
     const applications = db.prepare(`
       SELECT 
@@ -65,7 +65,7 @@ router.post('/applications', (req, res) => {
       })
     }
 
-    console.log('[v0] Adicionando candidato', candidate_id, 'à vaga', job_id, 'com compatibilidade', compatibility)
+    console.log(' Adicionando candidato', candidate_id, 'à vaga', job_id, 'com compatibilidade', compatibility)
 
     const stmt = db.prepare(`
       INSERT INTO applications (candidate_id, job_id, compatibility)
@@ -79,7 +79,7 @@ router.post('/applications', (req, res) => {
       id: result.lastInsertRowid 
     })
   } catch (error) {
-    console.error('[v0] Erro ao adicionar aplicação:', error)
+    console.error(' Erro ao adicionar aplicação:', error)
     
     if (error.message.includes('UNIQUE')) {
       return res.status(400).json({ 
@@ -102,7 +102,7 @@ router.put('/applications/:id/compatibility', (req, res) => {
       })
     }
 
-    console.log('[v0] Atualizando compatibilidade da aplicação:', id)
+    console.log(' Atualizando compatibilidade da aplicação:', id)
 
     const stmt = db.prepare(`
       UPDATE applications 

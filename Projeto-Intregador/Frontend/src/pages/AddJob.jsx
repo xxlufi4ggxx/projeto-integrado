@@ -66,7 +66,7 @@ export default function AddJob() {
       alert("Vaga adicionada com sucesso!")
       navigate("/jobs")
     } catch (error) {
-      console.error("[v0] Erro ao adicionar vaga:", error)
+      console.error(" Erro ao adicionar vaga:", error)
       setError(error.response?.data?.message || "Erro ao adicionar vaga")
     } finally {
       setLoading(false)

@@ -16,11 +16,11 @@ class UserController {
       // 1. Pega dados enviados no corpo da requisição
       const { name, email, password } = req.body
 
-      console.log("[v0] Tentativa de cadastro:", { name, email })
+      console.log(" Tentativa de cadastro:", { name, email })
 
       // 2. VALIDAÇÃO: Verifica se todos os campos foram preenchidos
       if (!name || !email || !password) {
-        console.log("[v0] Erro: Campos obrigatórios não preenchidos")
+        console.log(" Erro: Campos obrigatórios não preenchidos")
         return res.status(400).json({
           message: "Nome, email e senha são obrigatórios.",
         })
@@ -28,12 +28,12 @@ class UserController {
 
       // 3. Normaliza email (remove espaços e deixa em minúsculas)
       const normalizedEmail = email.trim().toLowerCase()
-      console.log("[v0] Email normalizado:", normalizedEmail)
+      console.log(" Email normalizado:", normalizedEmail)
 
       // 4. Verifica se usuário já existe
       const userExists = User.findByEmail(normalizedEmail)
       if (userExists) {
-        console.log("[v0] Erro: Email já cadastrado")
+        console.log(" Erro: Email já cadastrado")
         return res.status(400).json({
           message: "Este email já está cadastrado.",
         })
@@ -42,11 +42,11 @@ class UserController {
       // 5. Criptografa senha (10 = número de "rodadas" de criptografia)
       // Quanto maior o número, mais seguro, mas mais lento
       const hashedPassword = await bcrypt.hash(password, 10)
-      console.log("[v0] Senha criptografada com sucesso")
+      console.log(" Senha criptografada com sucesso")
 
       // 6. Cria usuário no banco de dados
       const userId = User.create(name, normalizedEmail, hashedPassword)
-      console.log("[v0] Usuário criado com ID:", userId)
+      console.log(" Usuário criado com ID:", userId)
 
       // 7. Retorna sucesso
       res.status(201).json({
@@ -68,11 +68,11 @@ class UserController {
       // 1. Pega credenciais enviadas
       const { email, password } = req.body
 
-      console.log("[v0] Tentativa de login:", { email })
+      console.log(" Tentativa de login:", { email })
 
       // 2. VALIDAÇÃO: Verifica se campos foram preenchidos
       if (!email || !password) {
-        console.log("[v0] Erro: Email ou senha não fornecidos")
+        console.log(" Erro: Email ou senha não fornecidos")
         return res.status(400).json({
           message: "Email e senha são obrigatórios.",
         })
@@ -84,24 +84,24 @@ class UserController {
       // 4. Busca usuário no banco de dados
       const user = User.findByEmail(normalizedEmail)
       if (!user) {
-        console.log("[v0] Erro: Usuário não encontrado")
+        console.log(" Erro: Usuário não encontrado")
         return res.status(400).json({
           message: "Email ou senha incorretos.", // Mensagem genérica por segurança
         })
       }
 
-      console.log("[v0] Usuário encontrado:", user.name)
+      console.log(" Usuário encontrado:", user.name)
 
       // 5. Compara senha digitada com senha criptografada do banco
       const senhaCorreta = await bcrypt.compare(password, user.password)
       if (!senhaCorreta) {
-        console.log("[v0] Erro: Senha incorreta")
+        console.log(" Erro: Senha incorreta")
         return res.status(401).json({
           message: "Email ou senha incorretos.",
         })
       }
 
-      console.log("[v0] Senha correta, gerando token...")
+      console.log(" Senha correta, gerando token...")
 
       // 6. Gera token JWT (JSON Web Token)
       // Token é como uma "chave de acesso" que prova que o usuário está logado
@@ -111,7 +111,7 @@ class UserController {
         { expiresIn: "24h" }, // Token expira em 24 horas
       )
 
-      console.log("[v0] Token gerado com sucesso")
+      console.log(" Token gerado com sucesso")
 
       // 7. Retorna sucesso com token
       res.json({
@@ -124,7 +124,7 @@ class UserController {
         },
       })
     } catch (err) {
-      console.error("[v0] Erro no login:", err)
+      console.error(" Erro no login:", err)
       res.status(500).json({
         message: "Erro ao fazer login. Tente novamente.",
       })
@@ -135,7 +135,7 @@ class UserController {
   // Esta rota é protegida (requer autenticação)
   static getUsers(req, res) {
     try {
-      console.log("[v0] Listando todos os usuários")
+      console.log(" Listando todos os usuários")
 
       // Busca todos os usuários
       const users = User.getAll()
@@ -148,7 +148,7 @@ class UserController {
 
       res.json(usersWithoutPasswords)
     } catch (err) {
-      console.error("[v0] Erro ao listar usuários:", err)
+      console.error(" Erro ao listar usuários:", err)
       res.status(500).json({
         message: "Erro ao listar usuários.",
       })
@@ -161,12 +161,12 @@ class UserController {
       // Pega ID da URL (ex: /api/users/5)
       const { id } = req.params
 
-      console.log("[v0] Buscando usuário com ID:", id)
+      console.log(" Buscando usuário com ID:", id)
 
       const user = User.findById(id)
 
       if (!user) {
-        console.log("[v0] Usuário não encontrado")
+        console.log(" Usuário não encontrado")
         return res.status(404).json({
           message: "Usuário não encontrado.",
         })
@@ -177,7 +177,7 @@ class UserController {
 
       res.json(userWithoutPassword)
     } catch (err) {
-      console.error("[v0] Erro ao buscar usuário:", err)
+      console.error(" Erro ao buscar usuário:", err)
       res.status(500).json({
         message: "Erro ao buscar usuário.",
       })
@@ -190,7 +190,7 @@ class UserController {
       const userId = req.userId
       const { name, email } = req.body
 
-      console.log("[v0] Atualizando perfil do usuário:", userId)
+      console.log(" Atualizando perfil do usuário:", userId)
 
       // Validação
       if (!name || !email) {
@@ -223,13 +223,13 @@ class UserController {
       const updatedUser = User.findById(userId)
       const { password, ...userWithoutPassword } = updatedUser
 
-      console.log("[v0] Perfil atualizado com sucesso")
+      console.log(" Perfil atualizado com sucesso")
       res.json({
         message: "Perfil atualizado com sucesso!",
         user: userWithoutPassword,
       })
     } catch (err) {
-      console.error("[v0] Erro ao atualizar perfil:", err)
+      console.error(" Erro ao atualizar perfil:", err)
       res.status(500).json({
         message: "Erro ao atualizar perfil.",
       })
@@ -242,7 +242,7 @@ class UserController {
       const userId = req.userId
       const { currentPassword, newPassword } = req.body
 
-      console.log("[v0] Alterando senha do usuário:", userId)
+      console.log(" Alterando senha do usuário:", userId)
 
       // Validação
       if (!currentPassword || !newPassword) {
@@ -279,7 +279,7 @@ class UserController {
       // Atualiza senha no banco
       User.updatePassword(userId, hashedPassword)
 
-      console.log("[v0] Senha alterada com sucesso")
+      console.log(" Senha alterada com sucesso")
       res.json({
         message: "Senha alterada com sucesso!",
       })
@@ -297,23 +297,23 @@ class UserController {
       const { id } = req.params
       const { name, email } = req.body
 
-      console.log("[v0] Atualizando usuário:", id)
+      console.log(" Atualizando usuário:", id)
 
       const updated = User.update(id, { name, email })
 
       if (!updated) {
-        console.log("[v0] Usuário não encontrado ou sem alterações")
+        console.log(" Usuário não encontrado ou sem alterações")
         return res.status(404).json({
           message: "Usuário não encontrado.",
         })
       }
 
-      console.log("[v0] Usuário atualizado com sucesso")
+      console.log(" Usuário atualizado com sucesso")
       res.json({
         message: "Usuário atualizado com sucesso!",
       })
     } catch (err) {
-      console.error("[v0] Erro ao atualizar usuário:", err)
+      console.error(" Erro ao atualizar usuário:", err)
       res.status(500).json({
         message: "Erro ao atualizar usuário.",
       })
@@ -325,23 +325,23 @@ class UserController {
     try {
       const { id } = req.params
 
-      console.log("[v0] Deletando usuário:", id)
+      console.log(" Deletando usuário:", id)
 
       const deleted = User.delete(id)
 
       if (!deleted) {
-        console.log("[v0] Usuário não encontrado")
+        console.log(" Usuário não encontrado")
         return res.status(404).json({
           message: "Usuário não encontrado.",
         })
       }
 
-      console.log("[v0] Usuário deletado com sucesso")
+      console.log(" Usuário deletado com sucesso")
       res.json({
         message: "Usuário deletado com sucesso!",
       })
     } catch (err) {
-      console.error("[v0] Erro ao deletar usuário:", err)
+      console.error(" Erro ao deletar usuário:", err)
       res.status(500).json({
         message: "Erro ao deletar usuário.",
       })

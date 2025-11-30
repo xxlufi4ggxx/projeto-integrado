@@ -6,7 +6,7 @@ const router = express.Router()
 // Listar todas as vagas
 router.get('/jobs', (req, res) => {
   try {
-    console.log('[v0] Buscando vagas...')
+    console.log(' Buscando vagas...')
     const jobs = db.prepare('SELECT * FROM jobs ORDER BY created_at DESC').all()
     
     const jobsWithCounts = jobs.map(job => {
@@ -42,7 +42,7 @@ router.post('/jobs', (req, res) => {
       })
     }
 
-    console.log('[v0] Adicionando vaga:', title)
+    console.log(' Adicionando vaga:', title)
 
     try {
       const stmt = db.prepare(`
@@ -67,11 +67,11 @@ router.post('/jobs', (req, res) => {
         id: result.lastInsertRowid 
       })
     } catch (dbError) {
-      console.error('[v0] Erro no banco ao adicionar vaga:', dbError.message)
+      console.error(' Erro no banco ao adicionar vaga:', dbError.message)
       res.status(500).json({ message: 'Erro ao adicionar vaga: ' + dbError.message })
     }
   } catch (error) {
-    console.error('[v0] Erro ao adicionar vaga:', error)
+    console.error(' Erro ao adicionar vaga:', error)
     res.status(500).json({ message: 'Erro ao adicionar vaga' })
   }
 })
@@ -89,7 +89,7 @@ router.put('/jobs/:id', (req, res) => {
       })
     }
 
-    console.log('[v0] Atualizando vaga:', id)
+    console.log(' Atualizando vaga:', id)
 
     const stmt = db.prepare(`
       UPDATE jobs 
@@ -116,7 +116,7 @@ router.put('/jobs/:id', (req, res) => {
     
     res.json({ message: 'Vaga atualizada com sucesso' })
   } catch (error) {
-    console.error('[v0] Erro ao atualizar vaga:', error)
+    console.error(' Erro ao atualizar vaga:', error)
     res.status(500).json({ message: 'Erro ao atualizar vaga' })
   }
 })
@@ -125,7 +125,7 @@ router.put('/jobs/:id', (req, res) => {
 router.delete('/jobs/:id', (req, res) => {
   try {
     const { id } = req.params
-    console.log('[v0] Deletando vaga:', id)
+    console.log(' Deletando vaga:', id)
 
     // Remove aplicações da vaga primeiro
     db.prepare('DELETE FROM applications WHERE job_id = ?').run(id)
@@ -149,7 +149,7 @@ router.delete('/jobs/:id', (req, res) => {
 router.get('/jobs/:id', (req, res) => {
   try {
     const { id } = req.params
-    console.log('[v0] Buscando vaga:', id)
+    console.log(' Buscando vaga:', id)
     
     const job = db.prepare('SELECT * FROM jobs WHERE id = ?').get(id)
     
@@ -171,7 +171,7 @@ router.get('/jobs/:id', (req, res) => {
     
     res.json({ ...job, applications })
   } catch (error) {
-    console.error('[v0] Erro ao buscar vaga:', error)
+    console.error(' Erro ao buscar vaga:', error)
     res.status(500).json({ message: 'Erro ao buscar vaga' })
   }
 })
