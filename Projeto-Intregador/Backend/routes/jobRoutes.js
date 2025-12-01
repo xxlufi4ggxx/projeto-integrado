@@ -25,7 +25,7 @@ router.get('/jobs', (req, res) => {
     
     res.json(jobsWithCounts)
   } catch (error) {
-    console.error('[v0] Erro ao buscar vagas:', error)
+    console.error(' Erro ao buscar vagas:', error)
     res.status(500).json({ message: 'Erro ao buscar vagas' })
   }
 })
@@ -140,7 +140,7 @@ router.delete('/jobs/:id', (req, res) => {
     
     res.json({ message: 'Vaga removida com sucesso' })
   } catch (error) {
-    console.error('[v0] Erro ao deletar vaga:', error)
+    console.error(' Erro ao deletar vaga:', error)
     res.status(500).json({ message: 'Erro ao deletar vaga' })
   }
 })
