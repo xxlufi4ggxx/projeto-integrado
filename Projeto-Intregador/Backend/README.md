@@ -7,12 +7,7 @@
 npm install
 \`\`\`
 
-2. Crie o arquivo `.env` baseado no `.env.example`:
-\`\`\`bash
-cp .env.example .env
-\`\`\`
-
-3. Execute o servidor:
+2. Execute o servidor:
 \`\`\`bash
 npm run dev
 \`\`\`
